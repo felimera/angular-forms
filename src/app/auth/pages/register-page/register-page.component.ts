@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import * as customValidators from '../../../shared/validators/validators';
 
 import { ValidatorsService } from '../../../shared/service/validators.service';
+import { EmailValidator } from '../../../shared/validators/email-validator.service';
 
 @Component({
   templateUrl: './register-page.component.html',
@@ -12,7 +13,8 @@ export class RegisterPageComponent {
 
   public myForm: FormGroup = this.fb.group({
     name: ['', [Validators.required, Validators.pattern(this.validatorsService.firstNameAndLastnamePattern)]],
-    email: ['', [Validators.required, Validators.pattern(this.validatorsService.emailPattern)]],
+    // email: ['', [Validators.required, Validators.pattern(this.validatorsService.emailPattern)],[new EmailValidator()]],
+    email: ['', [Validators.required, Validators.pattern(this.validatorsService.emailPattern)], [this.emailValidator]],
     username: ['', [Validators.required, this.validatorsService.cantBeStrider]],
     // name: ['', [Validators.required, Validators.pattern(customValidators.firstNameAndLastnamePattern)]],
     // email: ['', [Validators.required, Validators.pattern(customValidators.emailPattern)]],
@@ -24,6 +26,7 @@ export class RegisterPageComponent {
   constructor(
     private fb: FormBuilder,
     private validatorsService: ValidatorsService,
+    private emailValidator: EmailValidator
   ) { }
 
   isValidField(field: string): boolean | null {
